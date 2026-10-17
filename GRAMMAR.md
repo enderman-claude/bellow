@@ -9,7 +9,7 @@ Not Python. Blocks are closed explicitly, statements end with `;`, and indentati
 | `kind`      | declares a type with fields and methods           |
 | `do`        | declares a function                               |
 | `please`    | marks a constructor inside a `kind`               |
-| `now`       | marks a `do` for JIT when possible                |
+| `now`       | marks a `do` as impatient; sets theme to impatient |
 | `have`      | immutable binding                                 |
 | `give`      | return a value                                    |
 | `when`      | conditional, closed by `thank you`                |
@@ -18,7 +18,9 @@ Not Python. Blocks are closed explicitly, statements end with `;`, and indentati
 | `syscall`   | direct kernel call, per-target number mapping     |
 | `yell`      | print one value to stderr, uppercased             |
 | `scream`    | formatted print with `{}` interpolation to stdout |
-| `thank you` | closes any block; the only block terminator       |
+| `thank you` | closes a polite block                              |
+| `fuck you`  | closes a rude block                               |
+| `cool bye!` | closes an impatient block (theme: impatient)      |
 
 ## Shape
 
@@ -111,3 +113,10 @@ Using the wrong form for the scope is a compile error.
 - Impatience (`now`) is a separate flag. A `now` block still has exactly one theme.
 - A `now` block is not exempt from theme matching. Its builtins must match its theme like any other block.
 - The compiler estimates JIT cost for `now` blocks. If a block wastes too much time (for example, many `raw` syscalls or repeated recompilation), it is rejected with a rude message, and the author must rewrite it or drop `now`.
+
+## Impatient theme
+
+- Three themes: polite (closed by `thank you`), rude (closed by `fuck you`), impatient (closed by `cool bye!`). Every scope has exactly one.
+- Impatient is the most flexible in language: it accepts any builtin form and any construct that can be JIT-compiled.
+- The compiler requires impatient scopes to be JIT-compilable. If the scope contains anything it cannot JIT (such as an unverified `raw` syscall), the build fails with a rude message and the developer must restructure the code or change its theme.
+- Impatient scopes do not count toward the politeness balance `rude <= polite`.
