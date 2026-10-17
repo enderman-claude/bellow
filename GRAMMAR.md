@@ -82,7 +82,7 @@ Let `n[polite]` be the number of `thank you` terminators in a file, and `n[rude]
 A file builds only if `n[rude] <= n[polite]`. Otherwise the build fails with a rude message on stderr.
 
 Consequences:
-- A file of only `now` functions has zero counted terminators, so it always passes. It can be 100% impatient.
+- A file of only `now` functions still has terminators, so its counts apply like any other file.
 - A file with `fuck you` and no `thank you` outside `now` fails.
 - Politeness is per file, not per program. Each file is checked on its own.
 
@@ -92,7 +92,6 @@ Each block has a theme set by its terminator: polite (`thank you`) or rude (`fuc
 
 - All direct child blocks inside one scope must share a theme. Mixing polite and rude children in one scope is a compile error ("the compiler is confused").
 - A nested block may have a different theme from its parent. Each scope is checked on its own.
-- `now` blocks are exempt from the theme check, as before.
 - The file-level balance rule above still applies to the counts.
 
 ## Builtin variants
@@ -106,9 +105,9 @@ Variant names are placeholders until decided:
 
 Using the wrong form for the scope is a compile error.
 
-## Now blocks
+## Theme and impatience are separate
 
-`now` blocks are not theme-checked. Instead they are budgeted:
-- A `now` block may lean polite or lean rude, but not mix both within the same block.
-- The compiler estimates the JIT cost of the block. If the block wastes too much time (for example, too many `raw` syscalls or repeated recompilation), it is rejected with a rude message, and the author must rewrite or drop `now`.
-- Lean is decided by the dominant terminator of the block's direct children.
+- Theme (polite or rude) is one attribute per scope, set by its terminator. A scope is never both.
+- Impatience (`now`) is a separate flag. A `now` block still has exactly one theme.
+- A `now` block is not exempt from theme matching. Its builtins must match its theme like any other block.
+- The compiler estimates JIT cost for `now` blocks. If a block wastes too much time (for example, many `raw` syscalls or repeated recompilation), it is rejected with a rude message, and the author must rewrite it or drop `now`.
