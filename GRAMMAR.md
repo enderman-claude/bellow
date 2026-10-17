@@ -85,3 +85,12 @@ Consequences:
 - A file of only `now` functions has zero counted terminators, so it always passes. It can be 100% impatient.
 - A file with `fuck you` and no `thank you` outside `now` fails.
 - Politeness is per file, not per program. Each file is checked on its own.
+
+## Theme per scope
+
+Each block has a theme set by its terminator: polite (`thank you`) or rude (`fuck you`). A block's theme applies to its own direct child blocks.
+
+- All direct child blocks inside one scope must share a theme. Mixing polite and rude children in one scope is a compile error ("the compiler is confused").
+- A nested block may have a different theme from its parent. Each scope is checked on its own.
+- `now` blocks are exempt from the theme check, as before.
+- The file-level balance rule above still applies to the counts.
