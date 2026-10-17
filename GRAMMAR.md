@@ -74,3 +74,14 @@ Not Python. Blocks are closed explicitly, statements end with `;`, and indentati
             syscall exit(0);
         } thank you
     } thank you
+
+## Politeness balance
+
+Let `n[polite]` be the number of `thank you` terminators in a file, and `n[rude]` the number of `fuck you` terminators. Blocks inside a `now` function are not counted.
+
+A file builds only if `n[rude] <= n[polite]`. Otherwise the build fails with a rude message on stderr.
+
+Consequences:
+- A file of only `now` functions has zero counted terminators, so it always passes. It can be 100% impatient.
+- A file with `fuck you` and no `thank you` outside `now` fails.
+- Politeness is per file, not per program. Each file is checked on its own.
