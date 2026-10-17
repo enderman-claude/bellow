@@ -98,12 +98,12 @@ Each block has a theme set by its terminator: polite (`thank you`) or rude (`fuc
 
 ## Builtin variants
 
-Core builtins like `print` have three forms: polite, rude, and impatient. A builtin must use the form matching its enclosing scope's theme. Impatient is the form used inside `now` blocks.
+Core builtins like `print` have three forms: polite, rude, and impatient. A builtin must use the form matching its enclosing scope's theme. Impatient is the form used inside `now` blocks, and it is `pt(...)`.
 
 Variant names are placeholders until decided:
 - polite: `please print(...)`
 - rude: `damn print(...)`
-- impatient: `print(...)` (bare)
+- impatient: `pt(...)`
 
 Using the wrong form for the scope is a compile error.
 
