@@ -1,5 +1,0 @@
-# The manifest is the only source of truth for file types.
-[files]
-"readme.svg" = "markdown"
-"main.exe"   = "bellow"
-"config.toml" = "binary"

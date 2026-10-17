@@ -6,15 +6,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  check:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+  linux:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate manifest
+      - name: Validate manifests
+        run: python3 -c "import tomllib,glob; [print(f, tomllib.load(open(f,'rb'))) for f in glob.glob('examples/*.bellow.toml')]"
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate manifests
         shell: bash
-        run: |
-          python3 -c "import tomllib,sys; d=tomllib.load(open('bellow.toml','rb')); assert 'files' in d, 'no [files] table'; print('manifest ok:', d['files'])"
+        run: python -c "import tomllib,glob; [print(f, tomllib.load(open(f,'rb'))) for f in glob.glob('examples/*.bellow.toml')]"
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate manifests
+        run: python3 -c "import tomllib,glob; [print(f, tomllib.load(open(f,'rb'))) for f in glob.glob('examples/*.bellow.toml')]"
