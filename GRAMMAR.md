@@ -94,3 +94,21 @@ Each block has a theme set by its terminator: polite (`thank you`) or rude (`fuc
 - A nested block may have a different theme from its parent. Each scope is checked on its own.
 - `now` blocks are exempt from the theme check, as before.
 - The file-level balance rule above still applies to the counts.
+
+## Builtin variants
+
+Core builtins like `print` have three forms: polite, rude, and impatient. A builtin must use the form matching its enclosing scope's theme. Impatient is the form used inside `now` blocks.
+
+Variant names are placeholders until decided:
+- polite: `please print(...)`
+- rude: `damn print(...)`
+- impatient: `print(...)` (bare)
+
+Using the wrong form for the scope is a compile error.
+
+## Now blocks
+
+`now` blocks are not theme-checked. Instead they are budgeted:
+- A `now` block may lean polite or lean rude, but not mix both within the same block.
+- The compiler estimates the JIT cost of the block. If the block wastes too much time (for example, too many `raw` syscalls or repeated recompilation), it is rejected with a rude message, and the author must rewrite or drop `now`.
+- Lean is decided by the dominant terminator of the block's direct children.
