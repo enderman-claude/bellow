@@ -120,3 +120,10 @@ Using the wrong form for the scope is a compile error.
 - Impatient is the most flexible in language: it accepts any builtin form and any construct that can be JIT-compiled.
 - The compiler requires impatient scopes to be JIT-compilable. If the scope contains anything it cannot JIT (such as an unverified `raw` syscall), the build fails with a rude message and the developer must restructure the code or change its theme.
 - Impatient scopes do not count toward the politeness balance `rude <= polite`.
+
+## Decisions made in the first checker
+
+- Constructors are `do new(...)`. `please` is only a builtin print prefix, so `please print(...)` never looks like a block opener.
+- Functions use `do`, and `now do` for impatient ones.
+- Print forms: `please print(` (polite), `damn print(` (rude), `pt(` (impatient).
+- The checker is structural only: it matches blocks to closers, enforces the theme rules, and checks the rude/polite balance. It does not parse expressions yet.

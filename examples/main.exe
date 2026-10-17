@@ -1,1 +1,23 @@
-yell "hello"
+kind Greeter
+    name as text
+
+    do new(name as text)
+        self.name is name
+    thank you
+
+    do greet() gives text
+        give "hello, {self.name}"
+    thank you
+thank you
+
+now do fast_len(s as text) gives number
+    give length of s
+cool bye!
+
+start
+    have g be Greeter.new("world")
+    please print(g.greet())
+    raw
+        syscall write(1, "raw write\n", 10)
+    thank you
+thank you

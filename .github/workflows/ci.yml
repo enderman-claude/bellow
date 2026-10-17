@@ -10,20 +10,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate manifests
-        run: python3 -c "import tomllib,glob; [print(f, tomllib.load(open(f,'rb'))) for f in glob.glob('examples/*.bellow.toml')]"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test checker
+        run: python -m unittest discover -s tests -t .
+      - name: Check example
+        run: python -m bellow check examples/main.exe
 
   windows:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate manifests
-        shell: bash
-        run: python -c "import tomllib,glob; [print(f, tomllib.load(open(f,'rb'))) for f in glob.glob('examples/*.bellow.toml')]"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test checker
+        run: python -m unittest discover -s tests -t .
+      - name: Check example
+        run: python -m bellow check examples/main.exe
 
   macos:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate manifests
-        run: python3 -c "import tomllib,glob; [print(f, tomllib.load(open(f,'rb'))) for f in glob.glob('examples/*.bellow.toml')]"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test checker
+        run: python -m unittest discover -s tests -t .
+      - name: Check example
+        run: python -m bellow check examples/main.exe
